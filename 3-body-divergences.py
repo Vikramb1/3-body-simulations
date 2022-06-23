@@ -10,12 +10,12 @@ m2 = 20
 m3 = 30
 G = 9.8
 
-height = 1000
-width = 1000
+height = 500
+width = 500
 max_dist = 20
-total_time = 100
+total_time = 1000
 dt = 0.001
-divergence_distance = 0.5
+divergence_distance = 150
 shift_amount = 1e-3
 
 p1_grid = np.zeros((3,height,width))
@@ -93,6 +93,12 @@ def save_2(arr, i, p1_grid):
     arr[(p1_grid[1] * 12 - p1_grid[2] * 10 < 1).numpy() & (p1_grid[1] * 12 - p1_grid[2] * 10 > -1).numpy()] = i
     plt.imshow(arr, cmap = 'inferno')
     plt.savefig('frame_proj_' + str(i) + '.png')
+
+def save_3(arr, i):
+    plt.style.use('dark_background')
+    plt.imshow(arr, cmap = 'inferno')
+    plt.axis('off')
+    plt.savefig('frame_eject_' + str(i) + '.png')
     
 def find_array(p1_grid, p2_grid, p3_grid, v1_grid, v2_grid, v3_grid, p1_grid_prime, p2_grid_prime, p3_grid_prime, v1_grid_prime, v2_grid_prime, v3_grid_prime):
     time = np.zeros((height,width))
@@ -102,7 +108,7 @@ def find_array(p1_grid, p2_grid, p3_grid, v1_grid, v2_grid, v3_grid, p1_grid_pri
         if i%100 == 0:
             print(i)
             o = i - time
-            save_2(o, i, p1_grid)
+            save_3(o,i)
 
         distances = diverged(p1_grid,p1_grid_prime).numpy()
         going_on &= distances
